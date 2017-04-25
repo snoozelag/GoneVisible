@@ -1,4 +1,4 @@
-# UIViewGoneVisible
+# GoneVisible
 
 [![Platform](http://img.shields.io/badge/platform-ios-blue.svg?style=flat
 )](https://developer.apple.com/iphone/index.action)
@@ -8,8 +8,11 @@
 )](http://mit-license.org)
 [![Twitter](https://img.shields.io/badge/twitter-@yteruto-blue.svg?style=flat)](http://twitter.com/yteruto)
 
-GoneVisible is a UIView extension that uses AutoLayout to add "gone" state like Android.
+**GoneVisible is a UIView extension that uses AutoLayout to add "gone" state like Android.**  
 
+You can easily change the size constraint constant of UIView to 0 without adding IBOutlet property of size constraint. GoneVisible supports iOS and is written in Swift.  
+　  
+　  
 ![](demo.gif)
 
 ## Requirements ##
