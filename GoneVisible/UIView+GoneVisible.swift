@@ -73,11 +73,13 @@ extension NSLayoutConstraint {
     }
     
     fileprivate func isHeight() -> Bool {
-        return self.firstAttribute == .height && self.secondAttribute == .notAnAttribute
+        // without NSSizeLayoutConstraint
+        return self.firstAttribute == .height && self.secondAttribute == .notAnAttribute && type(of: self) === NSLayoutConstraint.self
     }
     
     fileprivate func isWidth() -> Bool {
-        return self.firstAttribute == .width && self.secondAttribute == .notAnAttribute
+        // without NSSizeLayoutConstraint
+        return self.firstAttribute == .width && self.secondAttribute == .notAnAttribute && type(of: self) === NSLayoutConstraint.self
     }
     
     fileprivate func isSpacing(itemView: UIView, attribute: NSLayoutAttribute) -> Bool {
@@ -97,9 +99,9 @@ extension UIView {
     // MARK: - Added Stored Property
     
     @nonobjc static private var isGoneKey  = "isGone"
-    @nonobjc static private var aspectRatioConstraintsKey  = "aspectRatioConstraints"
-    @nonobjc static private var equalHeightConstraintsKey  = "equalHeightConstraints"
-    @nonobjc static private var equalWidthConstraintsKey  = "equalWidthConstraints"
+    @nonobjc static private var aspectRatioConstraintsKey = "aspectRatioConstraints"
+    @nonobjc static private var equalHeightConstraintsKey = "equalHeightConstraints"
+    @nonobjc static private var equalWidthConstraintsKey = "equalWidthConstraints"
     
     open private(set) var isGone: Bool {
         get {
@@ -151,7 +153,7 @@ extension UIView {
     ///
     /// - Parameter completion: Blocks to be executed upon completion.
     ///
-    open func gone(direction: SizeAttribute? = nil, spaces: [SpaceAttribute]? = nil, completion: (() -> ())? = nil) {
+    open func setGone(direction: SizeAttribute? = nil, spaces: [SpaceAttribute]? = nil, completion: (() -> ())? = nil) {
         self.isGone = true
         
         // Find size constraints to make it 0 constant, if not create it.
@@ -203,7 +205,7 @@ extension UIView {
     ///
     /// - Parameter completion: Blocks to be executed upon completion.
     ///
-    open func visible(completion: (() -> ())? = nil) {
+    open func setVisible(completion: (() -> ())? = nil) {
         guard self.isGone else { return }
         
         self.isGone = false
@@ -285,7 +287,7 @@ extension UIView {
     @discardableResult
     private func addConstraint(attribute: NSLayoutAttribute, constant: CGFloat) -> NSLayoutConstraint {
         let constraint = NSLayoutConstraint(item: self, attribute: attribute, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: constant)
-        constraint.priority = UILayoutPriorityDefaultHigh
+        constraint.priority = 751
         self.addConstraint(constraint)
         return constraint
     }

@@ -21,22 +21,29 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        self.toggleButtonAction()
+        // When you want to display in "gone" state from the beginning.
+        // self.toggleButtonAction()
+        //  or
+        // self.someView.setGone()
     }
     
     @IBAction func didTapToggleButton(_ sender: UIButton) {
-        self.toggleButtonAction()
+        self.toggleButtonActionWithAnimation()
+        // self.toggleButtonActionWithoutAnimation()
     }
     
-    private func toggleButtonAction() {
+    // Gone with Animation.
+    private func toggleButtonActionWithAnimation() {
         if self.blackView.isGone {
             self.toggleButton.setTitle("gone", for: .normal)
+            self.view.layoutIfNeeded()
             UIView.animate(withDuration: 0.3) {
                 self.visibleViews()
                 self.view.layoutIfNeeded()
             }
         } else {
             self.toggleButton.setTitle("visible", for: .normal)
+            self.view.layoutIfNeeded()
             UIView.animate(withDuration: 0.3) {
                 self.goneViews()
                 self.view.layoutIfNeeded()
@@ -44,20 +51,36 @@ class ViewController: UIViewController {
         }
     }
     
+    // Gone without Animation.
+    private func toggleButtonActionWithoutAnimation() {
+        if self.blackView.isGone {
+            self.toggleButton.setTitle("gone", for: .normal)
+            self.view.layoutIfNeeded()
+            self.visibleViews()
+            self.view.layoutIfNeeded()
+        } else {
+            self.toggleButton.setTitle("visible", for: .normal)
+            self.view.layoutIfNeeded()
+            self.goneViews()
+            self.view.layoutIfNeeded()
+        }
+        
+    }
+    
     private func goneViews() {
-        self.blackView.gone()
-        self.redView.gone(direction: .height, spaces: [.bottom])
-        self.blueView.gone(direction: .width, spaces: [.trailing])
-        self.yellowButton.gone(direction: .width, spaces: [.trailing])
-        self.errorMessageLabel.gone(direction: .height)
+        self.blackView.setGone()
+        self.redView.setGone(direction: .height, spaces: [.bottom])
+        self.blueView.setGone(direction: .width, spaces: [.trailing])
+        self.yellowButton.setGone(direction: .width, spaces: [.trailing])
+        self.errorMessageLabel.setGone(direction: .height)
     }
     
     private func visibleViews() {
-        self.blackView.visible()
-        self.redView.visible()
-        self.blueView.visible()
-        self.yellowButton.visible()
-        self.errorMessageLabel.visible()
+        self.blackView.setVisible()
+        self.redView.setVisible()
+        self.blueView.setVisible()
+        self.yellowButton.setVisible()
+        self.errorMessageLabel.setVisible()
     }
 
 }

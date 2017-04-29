@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name     = 'GoneVisible'
-  s.version  = '1.0.0'
+  s.version  = '1.0.1'
   s.license  = 'MIT'
   s.summary  = 'GoneVisible is a UIView extension that uses AutoLayout to add "gone" state like Android.'
   s.description      = <<-DESC
@@ -12,8 +12,8 @@ GoneVisible supports iOS and is written in Swift.
   s.pod_target_xcconfig = { 'SWIFT_VERSION' => '3.0' }
   s.homepage = 'https://github.com/terutoyamasaki/GoneVisible'
   s.author   = { 'Teruto Yamasaki' => 'y.teruto@gmail.com' }
-  s.social_media_url = 'https://twitter.com/yteruto'
   s.source   = { :git => 'https://github.com/terutoyamasaki/GoneVisible.git', :tag => "v#{s.version}" }
+  s.social_media_url = 'https://twitter.com/snoozelag'
   s.source_files = 'GoneVisible/*.swift'
   s.ios.frameworks = 'Foundation', 'UIKit'
   s.ios.deployment_target = '8.0'

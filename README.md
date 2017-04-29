@@ -6,7 +6,7 @@
 )](https://developer.apple.com/swift)
 [![License](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat
 )](http://mit-license.org)
-[![Twitter](https://img.shields.io/badge/twitter-@yteruto-blue.svg?style=flat)](http://twitter.com/yteruto)
+[![Twitter](https://img.shields.io/badge/twitter-@snoozelag-blue.svg?style=flat)](http://twitter.com/snoozelag)
 
 **GoneVisible is a UIView extension that uses AutoLayout to add "gone" state like Android.**  
 
