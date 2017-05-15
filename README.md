@@ -38,22 +38,22 @@ Then `$ pod install`
 
 ・Gone.
 ```swift
-view.gone()
+view.setGone()
 ```
 
 ・Visible.
 ```swift
-view.visible()
+view.setVisible()
 ```
 
 ・When setting to Gone, set the space constraint constant together to 0.
 ```swift
-view.gone(spaces: [.trailing])
+view.setGone(spaces: [.trailing])
 ```
 
-・Set either the height or the width of the size constraint to 0.
+・With "setGone" you can specify whether it is vertical or horizontal. It is useful when animating.
 ```swift
-view.gone(direction: .height)
+view.setGone(axis: .vertical)
 ```
 
 ##### See also:  
