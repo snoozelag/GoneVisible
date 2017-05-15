@@ -69,10 +69,10 @@ class ViewController: UIViewController {
     
     private func goneViews() {
         self.blackView.setGone()
-        self.redView.setGone(direction: .height, spaces: [.bottom])
-        self.blueView.setGone(direction: .width, spaces: [.trailing])
-        self.yellowButton.setGone(direction: .width, spaces: [.trailing])
-        self.errorMessageLabel.setGone(direction: .height)
+        self.redView.setGone(axis: .vertical, spaces: [.bottom])
+        self.blueView.setGone(axis: .horizontal, spaces: [.trailing])
+        self.yellowButton.setGone(axis: .horizontal, spaces: [.trailing])
+        self.errorMessageLabel.setGone(axis: .vertical)
     }
     
     private func visibleViews() {

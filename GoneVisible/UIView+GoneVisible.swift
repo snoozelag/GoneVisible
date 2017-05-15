@@ -8,7 +8,7 @@
 
 import UIKit
 
-public enum SpaceAttribute {
+public enum GVSpace {
     case top
     case bottom
     case leading
@@ -24,16 +24,9 @@ public enum SpaceAttribute {
     }
 }
 
-public enum SizeAttribute {
-    case height
-    case width
-    
-    func layoutAttribute() -> NSLayoutAttribute {
-        switch self {
-        case .height: return .height
-        case .width: return .width
-        }
-    }
+public enum GVAxis {
+    case vertical
+    case horizontal
 }
 
 extension NSLayoutConstraint {
@@ -68,8 +61,8 @@ extension NSLayoutConstraint {
     // MARK: - Determine Constraint
     
     fileprivate func isAspectRatio() -> Bool {
-       return (self.firstAttribute == .height && self.secondAttribute == .width)
-        || (self.firstAttribute == .width && self.secondAttribute == .height)
+        return (self.firstAttribute == .height && self.secondAttribute == .width)
+            || (self.firstAttribute == .width && self.secondAttribute == .height)
     }
     
     fileprivate func isHeight() -> Bool {
@@ -91,7 +84,7 @@ extension NSLayoutConstraint {
         return (self.firstItem as? UIView == itemView && self.secondItem != nil && self.firstAttribute == attribute)
             || (self.secondItem as? UIView == itemView && self.secondAttribute == attribute)
     }
-
+    
 }
 
 extension UIView {
@@ -145,7 +138,7 @@ extension UIView {
     ///
     /// If self has no size constraint, it will be added.
     ///
-    /// - Parameter direction: Normally, both the height and width constraints are set to 0, but 
+    /// - Parameter direction: Normally, both the height and width constraints are set to 0, but
     /// if you want to set either one of the constraints to 0.
     ///
     /// - Parameter spaces: At the same time, specify when you want to set the space top, bottom,
@@ -153,17 +146,17 @@ extension UIView {
     ///
     /// - Parameter completion: Blocks to be executed upon completion.
     ///
-    open func setGone(direction: SizeAttribute? = nil, spaces: [SpaceAttribute]? = nil, completion: (() -> ())? = nil) {
+    open func setGone(axis: GVAxis? = nil, spaces: [GVSpace]? = nil, completion: (() -> ())? = nil) {
         self.isGone = true
         
         // Find size constraints to make it 0 constant, if not create it.
-        if direction == .height {
+        if axis == .vertical {
             var heightConstraints = self.findHeightConstraints()
             if heightConstraints == nil {
                 heightConstraints = [self.addHeightConstraint()]
             }
             _ = heightConstraints?.map { $0.setGoneConstant() }
-        } else if direction == .width {
+        } else if axis == .horizontal {
             var widthConstraints = self.findWidthConstraints()
             if widthConstraints == nil  {
                 widthConstraints = [self.addWidthConstraint()]
@@ -179,15 +172,15 @@ extension UIView {
             _ = heightConstraints?.map { $0.setGoneConstant() }
             _ = widthConstraints?.map { $0.setGoneConstant() }
         }
-
-
+        
+        
         // Inactivate constraints that disturbs becoming 0 constant.
         self.aspectRatioConstraints = self.findAspectRatioConstraints()
         _ = self.aspectRatioConstraints?.map { $0.isActive = false }
         
         self.equalWidthConstraints = self.findEqualConstraints(itemView: self, attribute: .width)
         _ = self.equalWidthConstraints?.map { $0.isActive = false }
-            
+        
         self.equalHeightConstraints = self.findEqualConstraints(itemView: self, attribute: .height)
         _ = self.equalHeightConstraints?.map { $0.isActive = false }
         
@@ -215,7 +208,7 @@ extension UIView {
         
         // Restore space constraints to original constant.
         _ = [.top, .bottom, .leading, .trailing].map { self.visibleSpacing($0) }
-
+        
         // Reactivate other constraints.
         _ = self.aspectRatioConstraints?.map { $0.isActive = true }
         _ = self.equalWidthConstraints?.map { $0.isActive = true }
@@ -235,7 +228,7 @@ extension UIView {
         guard let spacingConstraints = self.findSpacingConstraints(itemView: self, attribute: attribute) else { return }
         _ = spacingConstraints.map { $0.setVisibleConstant() }
     }
-
+    
     // MARK: - Find Constraints
     
     private func findHeightConstraints() -> [NSLayoutConstraint]? {
@@ -251,7 +244,7 @@ extension UIView {
     private func findAspectRatioConstraints() -> [NSLayoutConstraint]? {
         return self.constraints.filter { $0.isAspectRatio() }
     }
-
+    
     private func findSpacingConstraints(itemView: UIView, attribute: NSLayoutAttribute) -> [NSLayoutConstraint]? {
         guard let superview = self.superview else { return nil }
         let spacingConstraints = superview.constraints.filter { $0.isSpacing(itemView: itemView, attribute: attribute) }
