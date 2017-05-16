@@ -138,7 +138,7 @@ extension UIView {
     ///
     /// If self has no size constraint, it will be added.
     ///
-    /// - Parameter direction: Normally, both the height and width constraints are set to 0, but
+    /// - Parameter axis: Normally, both the height and width constraints are set to 0, but
     /// if you want to set either one of the constraints to 0.
     ///
     /// - Parameter spaces: At the same time, specify when you want to set the space top, bottom,
