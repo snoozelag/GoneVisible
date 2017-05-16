@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name     = 'GoneVisible'
-  s.version  = '1.0.2'
+  s.version  = '1.0.3'
   s.license  = 'MIT'
   s.summary  = 'GoneVisible is a UIView extension that uses AutoLayout to add "gone" state like Android.'
   s.description      = <<-DESC
