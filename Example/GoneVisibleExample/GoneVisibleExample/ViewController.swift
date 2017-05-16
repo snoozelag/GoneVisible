@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     @IBOutlet weak private var blueView: UIView!
     @IBOutlet weak private var yellowButton: UIButton!
     @IBOutlet weak private var errorMessageLabel: UILabel!
-    @IBOutlet weak private var toggleButton: UIButton!
+    @IBOutlet weak private var toggleSwitch: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,22 +27,20 @@ class ViewController: UIViewController {
         // self.someView.setGone()
     }
     
-    @IBAction func didTapToggleButton(_ sender: UIButton) {
+    @IBAction func toggleSwitchValueChanged(_ sender: UISwitch) {
         self.toggleButtonActionWithAnimation()
         // self.toggleButtonActionWithoutAnimation()
     }
     
     // Gone with Animation.
     private func toggleButtonActionWithAnimation() {
-        if self.blackView.isGone {
-            self.toggleButton.setTitle("gone", for: .normal)
+        if self.toggleSwitch.isOn {
             self.view.layoutIfNeeded()
             UIView.animate(withDuration: 0.3) {
                 self.visibleViews()
                 self.view.layoutIfNeeded()
             }
         } else {
-            self.toggleButton.setTitle("visible", for: .normal)
             self.view.layoutIfNeeded()
             UIView.animate(withDuration: 0.3) {
                 self.goneViews()
@@ -52,20 +50,18 @@ class ViewController: UIViewController {
     }
     
     // Gone without Animation.
-    private func toggleButtonActionWithoutAnimation() {
-        if self.blackView.isGone {
-            self.toggleButton.setTitle("gone", for: .normal)
-            self.view.layoutIfNeeded()
-            self.visibleViews()
-            self.view.layoutIfNeeded()
-        } else {
-            self.toggleButton.setTitle("visible", for: .normal)
-            self.view.layoutIfNeeded()
-            self.goneViews()
-            self.view.layoutIfNeeded()
-        }
-        
-    }
+//    private func toggleButtonActionWithoutAnimation() {
+//        if self.blackView.isGone {
+//            self.view.layoutIfNeeded()
+//            self.visibleViews()
+//            self.view.layoutIfNeeded()
+//        } else {
+//            self.view.layoutIfNeeded()
+//            self.goneViews()
+//            self.view.layoutIfNeeded()
+//        }
+//        
+//    }
     
     private func goneViews() {
         self.blackView.setGone()
