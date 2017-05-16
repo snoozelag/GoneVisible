@@ -155,13 +155,13 @@ extension UIView {
             if heightConstraints == nil {
                 heightConstraints = [self.addHeightConstraint()]
             }
-            _ = heightConstraints?.map { $0.setGoneConstant() }
+            heightConstraints?.forEach { $0.setGoneConstant() }
         } else if axis == .horizontal {
             var widthConstraints = self.findWidthConstraints()
             if widthConstraints == nil  {
                 widthConstraints = [self.addWidthConstraint()]
             }
-            _ = widthConstraints?.map { $0.setGoneConstant() }
+            widthConstraints?.forEach { $0.setGoneConstant() }
         } else {
             var heightConstraints = self.findHeightConstraints()
             var widthConstraints = self.findWidthConstraints()
@@ -169,23 +169,23 @@ extension UIView {
                 heightConstraints = [self.addHeightConstraint()]
                 widthConstraints = [self.addWidthConstraint()]
             }
-            _ = heightConstraints?.map { $0.setGoneConstant() }
-            _ = widthConstraints?.map { $0.setGoneConstant() }
+            heightConstraints?.forEach { $0.setGoneConstant() }
+            widthConstraints?.forEach { $0.setGoneConstant() }
         }
         
         
         // Inactivate constraints that disturbs becoming 0 constant.
         self.aspectRatioConstraints = self.findAspectRatioConstraints()
-        _ = self.aspectRatioConstraints?.map { $0.isActive = false }
+        self.aspectRatioConstraints?.forEach { $0.isActive = false }
         
         self.equalWidthConstraints = self.findEqualConstraints(itemView: self, attribute: .width)
-        _ = self.equalWidthConstraints?.map { $0.isActive = false }
+        self.equalWidthConstraints?.forEach { $0.isActive = false }
         
         self.equalHeightConstraints = self.findEqualConstraints(itemView: self, attribute: .height)
-        _ = self.equalHeightConstraints?.map { $0.isActive = false }
+        self.equalHeightConstraints?.forEach { $0.isActive = false }
         
         // Set space constraints to 0 constant.
-        _ = spaces?.map { self.goneSpacing( $0.layoutAttribute()) }
+        spaces?.forEach { self.goneSpacing( $0.layoutAttribute()) }
         
         self.setNeedsUpdateConstraints()
         
@@ -203,16 +203,16 @@ extension UIView {
         
         self.isGone = false
         // Restore size constraints to original constant.
-        _ = self.findHeightConstraints()?.map { $0.setVisibleConstant() }
-        _ = self.findWidthConstraints()?.map { $0.setVisibleConstant() }
+        self.findHeightConstraints()?.forEach { $0.setVisibleConstant() }
+        self.findWidthConstraints()?.forEach { $0.setVisibleConstant() }
         
         // Restore space constraints to original constant.
-        _ = [.top, .bottom, .leading, .trailing].map { self.visibleSpacing($0) }
+        [.top, .bottom, .leading, .trailing].forEach { self.visibleSpacing($0) }
         
         // Reactivate other constraints.
-        _ = self.aspectRatioConstraints?.map { $0.isActive = true }
-        _ = self.equalWidthConstraints?.map { $0.isActive = true }
-        _ = self.equalHeightConstraints?.map { $0.isActive = true }
+        self.aspectRatioConstraints?.forEach { $0.isActive = true }
+        self.equalWidthConstraints?.forEach { $0.isActive = true }
+        self.equalHeightConstraints?.forEach { $0.isActive = true }
         
         self.setNeedsUpdateConstraints()
         
@@ -221,12 +221,12 @@ extension UIView {
     
     private func goneSpacing(_ attribute: NSLayoutAttribute) {
         guard let spacingConstraints = self.findSpacingConstraints(itemView: self, attribute: attribute) else { return }
-        _ = spacingConstraints.map { $0.setGoneConstant() }
+        spacingConstraints.forEach { $0.setGoneConstant() }
     }
     
     private func visibleSpacing(_ attribute: NSLayoutAttribute) {
         guard let spacingConstraints = self.findSpacingConstraints(itemView: self, attribute: attribute) else { return }
-        _ = spacingConstraints.map { $0.setVisibleConstant() }
+        spacingConstraints.forEach { $0.setVisibleConstant() }
     }
     
     // MARK: - Find Constraints
