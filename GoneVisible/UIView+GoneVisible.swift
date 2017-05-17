@@ -96,7 +96,7 @@ extension UIView {
     @nonobjc static private var equalHeightConstraintsKey = "equalHeightConstraints"
     @nonobjc static private var equalWidthConstraintsKey = "equalWidthConstraints"
     
-    open private(set) var isGone: Bool {
+    public private(set) var isGone: Bool {
         get {
             return (objc_getAssociatedObject(self, &UIView.isGoneKey) as? Bool) ?? false
         }
@@ -146,7 +146,7 @@ extension UIView {
     ///
     /// - Parameter completion: Blocks to be executed upon completion.
     ///
-    open func setGone(axis: GVAxis? = nil, spaces: [GVSpace]? = nil, completion: (() -> ())? = nil) {
+    public func gone(axis: GVAxis? = nil, spaces: [GVSpace]? = nil, completion: (() -> ())? = nil) {
         self.isGone = true
         
         // Find size constraints to make it 0 constant, if not create it.
@@ -198,7 +198,7 @@ extension UIView {
     ///
     /// - Parameter completion: Blocks to be executed upon completion.
     ///
-    open func setVisible(completion: (() -> ())? = nil) {
+    public func visible(completion: (() -> ())? = nil) {
         guard self.isGone else { return }
         
         self.isGone = false

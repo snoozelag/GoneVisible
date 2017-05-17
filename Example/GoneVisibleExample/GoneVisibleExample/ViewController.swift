@@ -24,7 +24,7 @@ class ViewController: UIViewController {
         // When you want to display in "gone" state from the beginning.
         // self.toggleButtonAction()
         //  or
-        // self.someView.setGone()
+        // self.someView.gone()
     }
     
     @IBAction func toggleSwitchValueChanged(_ sender: UISwitch) {
@@ -64,19 +64,19 @@ class ViewController: UIViewController {
 //    }
     
     private func goneViews() {
-        self.blackView.setGone()
-        self.redView.setGone(axis: .vertical, spaces: [.bottom])
-        self.blueView.setGone(axis: .horizontal, spaces: [.trailing])
-        self.yellowButton.setGone(axis: .horizontal, spaces: [.trailing])
-        self.errorMessageLabel.setGone(axis: .vertical)
+        self.blackView.gone()
+        self.redView.gone(axis: .vertical, spaces: [.bottom])
+        self.blueView.gone(axis: .horizontal, spaces: [.trailing])
+        self.yellowButton.gone(axis: .horizontal, spaces: [.trailing])
+        self.errorMessageLabel.gone(axis: .vertical)
     }
     
     private func visibleViews() {
-        self.blackView.setVisible()
-        self.redView.setVisible()
-        self.blueView.setVisible()
-        self.yellowButton.setVisible()
-        self.errorMessageLabel.setVisible()
+        self.blackView.visible()
+        self.redView.visible()
+        self.blueView.visible()
+        self.yellowButton.visible()
+        self.errorMessageLabel.visible()
     }
 
 }
