@@ -187,7 +187,7 @@ extension UIView {
         // Set space constraints to 0 constant.
         spaces?.forEach { self.goneSpacing( $0.layoutAttribute()) }
         
-        self.setNeedsUpdateConstraints()
+        self.setNeedsLayout()
         
         completion?()
     }
@@ -214,7 +214,7 @@ extension UIView {
         self.equalWidthConstraints?.forEach { $0.isActive = true }
         self.equalHeightConstraints?.forEach { $0.isActive = true }
         
-        self.setNeedsUpdateConstraints()
+        self.setNeedsLayout()
         
         completion?()
     }
