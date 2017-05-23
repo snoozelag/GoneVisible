@@ -22,46 +22,19 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         // When you want to display in "gone" state from the beginning.
-        // self.toggleButtonAction()
-        //  or
-        // self.someView.gone()
+//        self.toggleSwitch.isOn = false
+//        self.goneViews()
     }
     
     @IBAction func toggleSwitchValueChanged(_ sender: UISwitch) {
-        self.toggleButtonActionWithAnimation()
-        // self.toggleButtonActionWithoutAnimation()
-    }
-    
-    // Gone with Animation.
-    private func toggleButtonActionWithAnimation() {
         if self.toggleSwitch.isOn {
-            self.view.layoutIfNeeded()
-            UIView.animate(withDuration: 0.3) {
-                self.visibleViews()
-                self.view.layoutIfNeeded()
-            }
+            self.visibleViews()
+            UIView.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
         } else {
-            self.view.layoutIfNeeded()
-            UIView.animate(withDuration: 0.3) {
-                self.goneViews()
-                self.view.layoutIfNeeded()
-            }
+            self.goneViews()
+            self.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
         }
     }
-    
-    // Gone without Animation.
-//    private func toggleButtonActionWithoutAnimation() {
-//        if self.blackView.isGone {
-//            self.view.layoutIfNeeded()
-//            self.visibleViews()
-//            self.view.layoutIfNeeded()
-//        } else {
-//            self.view.layoutIfNeeded()
-//            self.goneViews()
-//            self.view.layoutIfNeeded()
-//        }
-//        
-//    }
     
     private func goneViews() {
         self.blackView.gone()
