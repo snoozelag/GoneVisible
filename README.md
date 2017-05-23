@@ -38,29 +38,32 @@ Then `$ pod install`
 
 ・Gone.
 ```swift
-view.setGone()
+view.gone()
 ```
 
 ・Visible.
 ```swift
-view.setVisible()
+view.visible()
 ```
 
 ・When setting to Gone, set the space constraint constant together to 0.
 ```swift
-view.setGone(spaces: [.trailing])
+view.gone(spaces: [.trailing])
 ```
 
-・With "setGone" you can specify whether it is vertical or horizontal. It is useful when animating.
+・With "gone" you can specify whether it is vertical or horizontal. It is useful when animating.
 ```swift
-view.setGone(axis: .vertical)
+view.gone(axis: .vertical)
 ```
 
 ##### See also:  
-- [:link: iOS Example Project](https://github.com/terutoyamasaki/GoneVisible/tree/master/Example/GoneVisibleExample)
+- [:link: iOS Example Project](https://github.com/snoozelag/GoneVisible/tree/master/Example/GoneVisibleExample)
+  
+## Author
+
+Teruto Yamasaki, y.teruto@gmail.com
 
 ## License ##
-
-The MIT License (MIT)
-
-Copyright (c) 2017 Teruto Yamasaki
+  
+The MIT License (MIT)  
+See the LICENSE file for more info.  
