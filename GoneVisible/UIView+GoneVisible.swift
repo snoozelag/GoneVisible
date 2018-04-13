@@ -283,7 +283,7 @@ extension UIView {
     @discardableResult
     private func addConstraint(attribute: NSLayoutAttribute, constant: CGFloat) -> NSLayoutConstraint {
         let constraint = NSLayoutConstraint(item: self, attribute: attribute, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: constant)
-        constraint.priority = 751
+        constraint.priority = UILayoutPriority(rawValue: 751)
         addConstraint(constraint)
         return constraint
     }
