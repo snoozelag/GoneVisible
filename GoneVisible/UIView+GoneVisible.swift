@@ -47,44 +47,43 @@ extension NSLayoutConstraint {
     // MARK: - Change Constant
     
     fileprivate func setGoneConstant() {
-        guard self.originalConstant == nil else { return }
-        self.originalConstant = self.constant
-        self.constant = 0
+        guard originalConstant == nil else { return }
+        originalConstant = constant
+        constant = 0
     }
     
     fileprivate func setVisibleConstant() {
-        guard let originalConstant = self.originalConstant else { return }
-        self.constant = originalConstant
+        guard let originalConstant = originalConstant else { return }
+        constant = originalConstant
         self.originalConstant = nil
     }
     
     // MARK: - Determine Constraint
     
     fileprivate func isAspectRatio() -> Bool {
-        return (self.firstAttribute == .height && self.secondAttribute == .width)
-            || (self.firstAttribute == .width && self.secondAttribute == .height)
+        return (firstAttribute == .height && secondAttribute == .width)
+            || (firstAttribute == .width && secondAttribute == .height)
     }
     
     fileprivate func isHeight() -> Bool {
         // without NSSizeLayoutConstraint
-        return self.firstAttribute == .height && self.secondAttribute == .notAnAttribute && type(of: self) === NSLayoutConstraint.self
+        return firstAttribute == .height && secondAttribute == .notAnAttribute && type(of: self) === NSLayoutConstraint.self
     }
     
     fileprivate func isWidth() -> Bool {
         // without NSSizeLayoutConstraint
-        return self.firstAttribute == .width && self.secondAttribute == .notAnAttribute && type(of: self) === NSLayoutConstraint.self
+        return firstAttribute == .width && secondAttribute == .notAnAttribute && type(of: self) === NSLayoutConstraint.self
     }
     
     fileprivate func isSpacing(itemView: UIView, attribute: NSLayoutAttribute) -> Bool {
-        return (self.firstItem as? UIView == itemView && self.firstAttribute == attribute)
-            || (self.secondItem as? UIView == itemView && self.secondAttribute == attribute)
+        return (firstItem as? UIView == itemView && firstAttribute == attribute)
+            || (secondItem as? UIView == itemView && secondAttribute == attribute)
     }
     
     fileprivate func isEqual(itemView: UIView, attribute: NSLayoutAttribute) -> Bool {
-        return (self.firstItem as? UIView == itemView && self.secondItem != nil && self.firstAttribute == attribute)
-            || (self.secondItem as? UIView == itemView && self.secondAttribute == attribute)
+        return (firstItem as? UIView == itemView && secondItem != nil && firstAttribute == attribute)
+            || (secondItem as? UIView == itemView && secondAttribute == attribute)
     }
-    
 }
 
 extension UIView {
@@ -131,8 +130,12 @@ extension UIView {
             objc_setAssociatedObject(self, &UIView.equalWidthConstraintsKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
-    
-    // MARK: - gone / visible Method
+}
+
+/// Methods
+extension UIView {
+
+    // MARK: - gone / visible Methods
     
     /// Size constraint of self is changed to 0, realizing an Android-like gone.
     ///
@@ -147,27 +150,27 @@ extension UIView {
     /// - Parameter completion: Blocks to be executed upon completion.
     ///
     public func gone(axis: GVAxis? = nil, spaces: [GVSpace]? = nil, completion: (() -> ())? = nil) {
-        self.isGone = true
+        isGone = true
         
         // Find size constraints to make it 0 constant, if not create it.
         if axis == .vertical {
-            var heightConstraints = self.findHeightConstraints()
+            var heightConstraints = findHeightConstraints()
             if heightConstraints == nil {
-                heightConstraints = [self.addHeightConstraint()]
+                heightConstraints = [addHeightConstraint()]
             }
             heightConstraints?.forEach { $0.setGoneConstant() }
         } else if axis == .horizontal {
-            var widthConstraints = self.findWidthConstraints()
+            var widthConstraints = findWidthConstraints()
             if widthConstraints == nil  {
-                widthConstraints = [self.addWidthConstraint()]
+                widthConstraints = [addWidthConstraint()]
             }
             widthConstraints?.forEach { $0.setGoneConstant() }
         } else {
-            var heightConstraints = self.findHeightConstraints()
-            var widthConstraints = self.findWidthConstraints()
+            var heightConstraints = findHeightConstraints()
+            var widthConstraints = findWidthConstraints()
             if widthConstraints == nil && heightConstraints == nil {
-                heightConstraints = [self.addHeightConstraint()]
-                widthConstraints = [self.addWidthConstraint()]
+                heightConstraints = [addHeightConstraint()]
+                widthConstraints = [addWidthConstraint()]
             }
             heightConstraints?.forEach { $0.setGoneConstant() }
             widthConstraints?.forEach { $0.setGoneConstant() }
@@ -175,19 +178,19 @@ extension UIView {
         
         
         // Inactivate constraints that disturbs becoming 0 constant.
-        self.aspectRatioConstraints = self.findAspectRatioConstraints()
-        self.aspectRatioConstraints?.forEach { $0.isActive = false }
+        aspectRatioConstraints = findAspectRatioConstraints()
+        aspectRatioConstraints?.forEach { $0.isActive = false }
         
-        self.equalWidthConstraints = self.findEqualConstraints(itemView: self, attribute: .width)
-        self.equalWidthConstraints?.forEach { $0.isActive = false }
+        equalWidthConstraints = findEqualConstraints(itemView: self, attribute: .width)
+        equalWidthConstraints?.forEach { $0.isActive = false }
         
-        self.equalHeightConstraints = self.findEqualConstraints(itemView: self, attribute: .height)
-        self.equalHeightConstraints?.forEach { $0.isActive = false }
+        equalHeightConstraints = findEqualConstraints(itemView: self, attribute: .height)
+        equalHeightConstraints?.forEach { $0.isActive = false }
         
         // Set space constraints to 0 constant.
-        spaces?.forEach { self.goneSpacing( $0.layoutAttribute()) }
+        spaces?.forEach { goneSpacing( $0.layoutAttribute()) }
         
-        self.setNeedsLayout()
+        setNeedsLayout()
         
         completion?()
     }
@@ -199,54 +202,54 @@ extension UIView {
     /// - Parameter completion: Blocks to be executed upon completion.
     ///
     public func visible(completion: (() -> ())? = nil) {
-        guard self.isGone else { return }
+        guard isGone else { return }
         
-        self.isGone = false
+        isGone = false
         // Restore size constraints to original constant.
-        self.findHeightConstraints()?.forEach { $0.setVisibleConstant() }
-        self.findWidthConstraints()?.forEach { $0.setVisibleConstant() }
+        findHeightConstraints()?.forEach { $0.setVisibleConstant() }
+        findWidthConstraints()?.forEach { $0.setVisibleConstant() }
         
         // Restore space constraints to original constant.
-        [.top, .bottom, .leading, .trailing].forEach { self.visibleSpacing($0) }
+        [.top, .bottom, .leading, .trailing].forEach { visibleSpacing($0) }
         
         // Reactivate other constraints.
-        self.aspectRatioConstraints?.forEach { $0.isActive = true }
-        self.equalWidthConstraints?.forEach { $0.isActive = true }
-        self.equalHeightConstraints?.forEach { $0.isActive = true }
+        aspectRatioConstraints?.forEach { $0.isActive = true }
+        equalWidthConstraints?.forEach { $0.isActive = true }
+        equalHeightConstraints?.forEach { $0.isActive = true }
         
-        self.setNeedsLayout()
+        setNeedsLayout()
         
         completion?()
     }
     
     private func goneSpacing(_ attribute: NSLayoutAttribute) {
-        guard let spacingConstraints = self.findSpacingConstraints(itemView: self, attribute: attribute) else { return }
+        guard let spacingConstraints = findSpacingConstraints(itemView: self, attribute: attribute) else { return }
         spacingConstraints.forEach { $0.setGoneConstant() }
     }
     
     private func visibleSpacing(_ attribute: NSLayoutAttribute) {
-        guard let spacingConstraints = self.findSpacingConstraints(itemView: self, attribute: attribute) else { return }
+        guard let spacingConstraints = findSpacingConstraints(itemView: self, attribute: attribute) else { return }
         spacingConstraints.forEach { $0.setVisibleConstant() }
     }
     
     // MARK: - Find Constraints
     
     private func findHeightConstraints() -> [NSLayoutConstraint]? {
-        let heightConstraints = self.constraints.filter { $0.isHeight() }
+        let heightConstraints = constraints.filter { $0.isHeight() }
         return heightConstraints.count > 0 ? heightConstraints : nil
     }
     
     private func findWidthConstraints() -> [NSLayoutConstraint]? {
-        let widthConstraints = self.constraints.filter { $0.isWidth() }
+        let widthConstraints = constraints.filter { $0.isWidth() }
         return widthConstraints.count > 0 ? widthConstraints : nil
     }
     
     private func findAspectRatioConstraints() -> [NSLayoutConstraint]? {
-        return self.constraints.filter { $0.isAspectRatio() }
+        return constraints.filter { $0.isAspectRatio() }
     }
     
     private func findSpacingConstraints(itemView: UIView, attribute: NSLayoutAttribute) -> [NSLayoutConstraint]? {
-        guard let superview = self.superview else { return nil }
+        guard let superview = superview else { return nil }
         let spacingConstraints = superview.constraints.filter { $0.isSpacing(itemView: itemView, attribute: attribute) }
         if spacingConstraints.count > 0 {
             return spacingConstraints
@@ -256,7 +259,7 @@ extension UIView {
     }
     
     private func findEqualConstraints(itemView: UIView, attribute: NSLayoutAttribute) -> [NSLayoutConstraint]? {
-        guard let superview = self.superview else { return nil }
+        guard let superview = superview else { return nil }
         let equalConstraints = superview.constraints.filter { $0.isEqual(itemView: itemView, attribute: attribute) }
         if equalConstraints.count > 0 {
             return equalConstraints
@@ -269,19 +272,19 @@ extension UIView {
     
     @discardableResult
     private func addHeightConstraint() -> NSLayoutConstraint {
-        return self.addConstraint(attribute: .height, constant: self.bounds.size.height)
+        return addConstraint(attribute: .height, constant: bounds.size.height)
     }
     
     @discardableResult
     private func addWidthConstraint() -> NSLayoutConstraint {
-        return self.addConstraint(attribute: .width, constant: self.bounds.size.width)
+        return addConstraint(attribute: .width, constant: bounds.size.width)
     }
     
     @discardableResult
     private func addConstraint(attribute: NSLayoutAttribute, constant: CGFloat) -> NSLayoutConstraint {
         let constraint = NSLayoutConstraint(item: self, attribute: attribute, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: constant)
         constraint.priority = 751
-        self.addConstraint(constraint)
+        addConstraint(constraint)
         return constraint
     }
     

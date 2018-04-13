@@ -22,34 +22,34 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         // When you want to display in "gone" state from the beginning.
-//        self.toggleSwitch.isOn = false
-//        self.goneViews()
+//        toggleSwitch.isOn = false
+//        goneViews()
     }
     
     @IBAction func toggleSwitchValueChanged(_ sender: UISwitch) {
-        if self.toggleSwitch.isOn {
-            self.visibleViews()
+        if toggleSwitch.isOn {
+            visibleViews()
             UIView.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
         } else {
-            self.goneViews()
-            self.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
+            goneViews()
+            UIView.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
         }
     }
     
     private func goneViews() {
-        self.blackView.gone()
-        self.redView.gone(axis: .vertical, spaces: [.bottom])
-        self.blueView.gone(axis: .horizontal, spaces: [.trailing])
-        self.yellowButton.gone(axis: .horizontal, spaces: [.trailing])
-        self.errorMessageLabel.gone(axis: .vertical)
+        blackView.gone()
+        redView.gone(axis: .vertical, spaces: [.bottom])
+        blueView.gone(axis: .horizontal, spaces: [.trailing])
+        yellowButton.gone(axis: .horizontal, spaces: [.trailing])
+        errorMessageLabel.gone(axis: .vertical)
     }
     
     private func visibleViews() {
-        self.blackView.visible()
-        self.redView.visible()
-        self.blueView.visible()
-        self.yellowButton.visible()
-        self.errorMessageLabel.visible()
+        blackView.visible()
+        redView.visible()
+        blueView.visible()
+        yellowButton.visible()
+        errorMessageLabel.visible()
     }
 
 }
