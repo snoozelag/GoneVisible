@@ -10,7 +10,10 @@
 
 **GoneVisible is a UIView extension that uses AutoLayout to add "gone" state like Android.**  
 
-You can easily change the size constraint constant of UIView to 0 without adding IBOutlet property of size constraint. GoneVisible supports iOS and is written in Swift.  
+You can easily change the size constraint constant of UIView to 0 without adding IBOutlet property of size constraint. GoneVisible supports iOS and is written in Swift.
+
+Additional notes:
+This library will be useful for projects targeting iOS 8. If your project is targeting iOS 9 or higher, I recommend you consider implementing with UIStackView before using this library.
 　  
 　  
 ![](demo.gif)
